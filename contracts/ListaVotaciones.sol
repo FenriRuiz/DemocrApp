@@ -2,25 +2,25 @@ pragma solidity ^0.5.0;
 
 contract ListaVotaciones{
     enum Estado {Editando, Abierto, Cerrado} Estado estado;
-    Estado constant estadoPorDefecto = Estado.Editando;
+    Estado constant estadoBase = Estado.Editando;
+    uint public numVotaciones = 0;
 
-    struct Votante {
-        uint id_votante;
-        string candidato_elegido;
-        bool ha_votado;
-    }
+    // struct Votante {
+    //     uint id_votante;
+    //     string candidato_elegido;
+    //     bool ha_votado;
+    // }
 
     struct Votacion {
         uint id_votacion;
         string titulo;
-        uint id_creador;
+        address id_creador;
         Estado estado;
         mapping (uint => string) candidatos;
-        mapping (uint => Votante) votantes;
+        // mapping (uint => Votante) votantes;
     }
 
-    uint public numVotaciones = 0;
-    mapping (uint => Votacion) votaciones;
+    mapping (uint => Votacion) public votaciones;
 
     constructor() public {
         nuevaVotacion("Votación a delegado de centro");
@@ -31,7 +31,7 @@ contract ListaVotaciones{
         //Emitir la nueva votación
 
         numVotaciones ++;
-        votaciones[numVotaciones] = Votacion(numVotaciones, _titulo, id_creador)
+        votaciones[numVotaciones] = Votacion(numVotaciones, _titulo, msg.sender, estadoBase);
     }
     
     function agregarCandidato() public{
