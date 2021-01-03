@@ -43,6 +43,12 @@ contract ListaVotaciones{
             msg.sender == votaciones[numVotacion].id_creador,
             "Solo el creador de la votación puede llamar a esta función"
         );
+        //Si la votación se encuentra en el estado de ediccion.
+        require(
+            votaciones[numVotaciones].estado == Estado.Editando,
+            "La votación debe estar edicción para poder agregar candidatos"
+        );
+
         // Si no hay ningún candidato en la votación se añade
         if(votaciones[numVotacion].candidatos.length==0){
             votaciones[numVotacion].candidatos.push(candidato);
