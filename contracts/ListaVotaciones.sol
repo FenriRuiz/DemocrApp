@@ -5,17 +5,13 @@ contract ListaVotaciones{
     Estado constant estadoBase = Estado.Editando;
     uint public numVotaciones = 0;
 
-    struct Votante {
-        uint candidatoElegido;
-    }
-
     struct Votacion {
         uint id_votacion;
         string titulo;
         address id_creador;
         Estado estado;
         string[] candidatos;
-        mapping(address => Votante) votantes;
+        mapping(address => uint) votosEmitidos;
     }
 
     mapping (uint => Votacion) public votaciones;
@@ -102,11 +98,11 @@ contract ListaVotaciones{
             "La votación debe estar abierta a votaciones para poder votar"
         ); 
         require(
-            votaciones[numVotacion].votantes[msg.sender].candidatoElegido == 0,
+            votaciones[numVotacion].votosEmitidos[msg.sender] == 0,
             "El votante no tiene que existir dentro de las votaciones"
         );
         //Cambia la variable eleccion.
-        votaciones[numVotacion].votantes[msg.sender].candidatoElegido = candidato;
+        votaciones[numVotacion].votosEmitidos[msg.sender] = candidato;
     }
 
 }
