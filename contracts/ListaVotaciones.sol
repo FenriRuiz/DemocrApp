@@ -6,9 +6,7 @@ contract ListaVotaciones{
     uint public numVotaciones = 0;
 
     struct Votante {
-        string nombre;
-        string candidato_elegido;
-        bool ha_votado;
+        uint candidatoElegido;
     }
 
     struct Votacion {
@@ -17,17 +15,15 @@ contract ListaVotaciones{
         address id_creador;
         Estado estado;
         string[] candidatos;
-        mapping(string => Votante) votantes;
+        mapping(address => Votante) votantes;
     }
 
     mapping (uint => Votacion) public votaciones;
 
     constructor() public {
-        nuevaVotacion("Votación a delegado de centro");
+        //nuevaVotacion("Votación a delegado de centro");
 
     }
-
-
 
     function nuevaVotacion(string memory _titulo) public{
         //Crear una nueva votación y añadirla a la lista de votaciones
@@ -68,31 +64,49 @@ contract ListaVotaciones{
 
     }
 
-    function accederVotacion() public{
-        //Crear un nuevo votante
-        //Si el estado de la votación es Abierto
-        //Añadir votante a la lista de votantes de la votación.
-    }
-
-    function estadoVotacionAbierto() public{
+    function estadoVotacionAbierto(uint numVotacion) public{
         //Si es el creador de la votación
-        //Tomar la votación seleccionada
+        require(
+            msg.sender == votaciones[numVotacion].id_creador,
+            "Solo el creador de la votación puede llamar a esta función"
+        );
         //Si el estado de la votación es Editando
-        //Votacion.estado = Estado.Abierta;
-    }
-    function estadoVotacionCerrado() public{
-        //Si es el creador de la votación
-        //Tomar la votación seleccionada
-        //Si el estado de la votacion es Abierto
-        //Votacion.estado = Estado.Cerrado;
+        require(
+            votaciones[numVotacion].estado == Estado.Editando,
+            "La votación debe estar edicción para poder ser abierta a votaciones"
+        );
+        //Tomar la votación seleccionada y cambiar el estado a Abierto
+        votaciones[numVotacion].estado = Estado.Abierto;
     }
 
-    function votar() public {
+    function estadoVotacionCerrado(uint numVotacion) public{
+        //Si es el creador de la votación
+        require(
+            msg.sender == votaciones[numVotacion].id_creador,
+            "Solo el creador de la votación puede llamar a esta función"
+        );
+        //Si el estado de la votacion es Editando o Abierto
+        require(
+            votaciones[numVotacion].estado != Estado.Cerrado,
+            "La votación debe estar edicción o abierta para poder ser cerrada"
+        ); 
+        //Tomar la votación seleccionada y cambiar el estado a Cerrado
+        votaciones[numVotacion].estado = Estado.Cerrado;
+    }
+
+    function votar(uint numVotacion, uint candidato) public {
         //Tomar la votación seleccionada
         //Si el estado de la votación es Votando
-        //Si el votante está en la votación
-        //Cambia el estado de ha_votado a true
+        require(
+            votaciones[numVotacion].estado == Estado.Abierto,
+            "La votación debe estar abierta a votaciones para poder votar"
+        ); 
+        require(
+            votaciones[numVotacion].votantes[msg.sender].candidatoElegido == 0,
+            "El votante no tiene que existir dentro de las votaciones"
+        );
         //Cambia la variable eleccion.
+        votaciones[numVotacion].votantes[msg.sender].candidatoElegido = candidato;
     }
 
 }
