@@ -10,7 +10,8 @@ contract ListaVotaciones{
         string titulo;
         address id_creador;
         Estado estado;
-        string[] candidatos;
+        uint numCandidatos;
+        mapping(uint => string) candidatos;
         mapping(address => uint) votosEmitidos;
     }
 
@@ -24,9 +25,8 @@ contract ListaVotaciones{
     function nuevaVotacion(string memory _titulo) public{
         //Crear una nueva votación y añadirla a la lista de votaciones
         //Emitir la nueva votación
-        string[] memory _candidatos;
         numVotaciones ++;
-        votaciones[numVotaciones] = Votacion(numVotaciones, _titulo, msg.sender, estadoBase, _candidatos);
+        votaciones[numVotaciones] = Votacion(numVotaciones, _titulo, msg.sender, estadoBase, 0);
     }
 
     function agregarCandidato(uint numVotacion, string memory candidato) public {
@@ -42,12 +42,13 @@ contract ListaVotaciones{
         );
 
         // Si no hay ningún candidato en la votación se añade
-        if(votaciones[numVotacion].candidatos.length==0){
-            votaciones[numVotacion].candidatos.push(candidato);
+        if(votaciones[numVotacion].numCandidatos==0){
+            votaciones[numVotacion].candidatos[votaciones[numVotacion].numCandidatos] = candidato;
+            votaciones[numVotacion].numCandidatos ++;
         }
         // Si hay alguno se comprueba que el nuevo no exista ya.
         else{
-            for (uint i = 0; i < votaciones[numVotacion].candidatos.length; i++){
+            for (uint i = 0; i < votaciones[numVotacion].numCandidatos; i++){
                 // Comparación de string en soldity @-@
                 if(keccak256(abi.encodePacked(votaciones[numVotacion].candidatos[i]))==keccak256(abi.encodePacked(candidato))){
                     revert("El candidato se encuentra en la votación");
@@ -55,7 +56,8 @@ contract ListaVotaciones{
             }        
             //Si no existe el nuevo candidato en la votacion
             //Añade el candidato a la votacion.
-            votaciones[numVotacion].candidatos.push(candidato);
+            votaciones[numVotacion].candidatos[votaciones[numVotacion].numCandidatos] = candidato;
+            votaciones[numVotacion].numCandidatos ++;
         }
 
     }
