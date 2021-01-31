@@ -11,8 +11,8 @@ contract ListaVotaciones{
         address id_creador;
         Estado estado;
         uint numCandidatos;
-        mapping(uint => string) candidatos;
-        mapping(address => uint) votosEmitidos;
+        mapping (uint => string) candidatos;
+        mapping (address => uint) votosEmitidos;
     }
 
     mapping (uint => Votacion) public votaciones;
