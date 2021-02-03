@@ -1,0 +1,25 @@
+ apiVersion: apps/v1
+ kind: Deployment
+ metadata:
+  name: eth-blockchain-deployment
+  namespace: ethereum-ns
+  labels:
+    app: eht-geth-miner
+ spec:
+  replicas: 3
+  revisionHistoryLimit: 1
+  selector:
+    matchLabels:
+      app: eht-geth-miner
+  template:
+    metadata:
+      name: eth-blockchain-deployment
+      labels:
+        app: eht-geth-miner
+    spec:
+      containers:
+        - name: ethereum-custom-img
+          image: ethereum-ns/ethereum-custom-img:latest
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 80
