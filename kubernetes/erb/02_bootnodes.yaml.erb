@@ -75,7 +75,7 @@ spec:
       port: <%= @NodeP2P_DiscoveryAddr %>
       targetPort: <%= @NodeP2P_DiscoveryAddr %>
 ---
-apiVersion: extensions/v1beta1
+apiVersion: apps/v1
 kind: DaemonSet
 metadata:
   namespace: default
@@ -84,6 +84,9 @@ metadata:
     app: bootnode
     name: bootnode-setup-pod
 spec:
+  selector:
+    matchLabels:
+      app: bootnode
   template:
     metadata:
       labels:

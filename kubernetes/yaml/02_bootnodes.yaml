@@ -131,7 +131,7 @@ spec:
       port: 30303
       targetPort: 30303
 ---
-apiVersion: extensions/v1beta1
+apiVersion: apps/v1
 kind: DaemonSet
 metadata:
   namespace: default
@@ -140,6 +140,9 @@ metadata:
     app: bootnode
     name: bootnode-setup-pod
 spec:
+  selector:
+    matchLabels:
+      app: bootnode
   template:
     metadata:
       labels:
