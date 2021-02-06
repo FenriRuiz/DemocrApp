@@ -1,18 +1,22 @@
-pragma solidity ^0.5.0;
+pragma solidity >0.5.0;
 
 contract ListaVotaciones{
     enum Estado {Editando, Abierto, Cerrado} Estado estado;
     Estado constant estadoBase = Estado.Editando;
     uint public numVotaciones = 0;
 
-    struct Votacion {
+    struct Votacion{
         uint id_votacion;
         string titulo;
         address id_creador;
         Estado estado;
         uint numCandidatos;
         mapping (uint => string) candidatos;
-        mapping (address => uint) votosEmitidos;
+        mapping (uint => VotoEmitido) votosEmitidos;
+    }
+    struct VotoEmitido{
+        address id_votante;
+        uint elegido;
     }
 
     mapping (uint => Votacion) public votaciones;
@@ -20,6 +24,16 @@ contract ListaVotaciones{
     constructor() public {
         //nuevaVotacion("Votación a delegado de centro");
 
+    }
+
+    function getCandidato(uint numVotacion, uint numCandidato) public view returns(string memory){
+        return votaciones[numVotacion].candidatos[numCandidato];
+    }
+    function setCandidato(uint numVotacion, uint numCandidato, string memory nuevoNombre) public{
+        votaciones[numVotacion].candidatos[numCandidato] = nuevoNombre;
+    }
+    function getVotosEmitido(uint numVotacion, uint numVoto) public view returns(address, uint){
+        return (votaciones[numVotacion].votosEmitidos[numVoto].id_votante, votaciones[numVotacion].votosEmitidos[numVoto].elegido);
     }
 
     function nuevaVotacion(string memory _titulo) public{
@@ -37,7 +51,7 @@ contract ListaVotaciones{
         );
         //Si la votación se encuentra en el estado de ediccion.
         require(
-            votaciones[numVotaciones].estado == Estado.Editando,
+            votaciones[numVotacion].estado == Estado.Editando,
             "La votación debe estar edicción para poder agregar candidatos"
         );
 
