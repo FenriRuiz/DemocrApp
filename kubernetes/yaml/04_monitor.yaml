@@ -11,7 +11,7 @@ data:
   app.json: |-
     [
       {
-        "name"              : "miner01",
+        "name"              : "miner1",
         "cwd"               : ".",
         "script"            : "app.js",
         "log_date_format"   : "YYYY-MM-DD HH:mm Z",
@@ -22,10 +22,10 @@ data:
         "env":
         {
           "NODE_ENV"        : "production",
-          "RPC_HOST"        : "miner01-rpchost",
+          "RPC_HOST"        : "miner1-rpchost",
           "RPC_PORT"        : "8545",
           "LISTENING_PORT"  : "30303",
-          "INSTANCE_NAME"   : "miner01",
+          "INSTANCE_NAME"   : "miner1",
           "CONTACT_DETAILS" : "",
           "WS_SERVER"       : "localhost:3001",
           "WS_SECRET"       : "123",
@@ -33,7 +33,7 @@ data:
         }
       },
       {
-        "name"              : "miner02",
+        "name"              : "miner2",
         "cwd"               : ".",
         "script"            : "app.js",
         "log_date_format"   : "YYYY-MM-DD HH:mm Z",
@@ -44,10 +44,10 @@ data:
         "env":
         {
           "NODE_ENV"        : "production",
-          "RPC_HOST"        : "miner02-rpchost",
+          "RPC_HOST"        : "miner2-rpchost",
           "RPC_PORT"        : "8545",
           "LISTENING_PORT"  : "30303",
-          "INSTANCE_NAME"   : "miner02",
+          "INSTANCE_NAME"   : "miner2",
           "CONTACT_DETAILS" : "",
           "WS_SERVER"       : "localhost:3001",
           "WS_SECRET"       : "123",
@@ -55,7 +55,7 @@ data:
         }
       },
       {
-        "name"              : "miner03",
+        "name"              : "miner3",
         "cwd"               : ".",
         "script"            : "app.js",
         "log_date_format"   : "YYYY-MM-DD HH:mm Z",
@@ -66,10 +66,32 @@ data:
         "env":
         {
           "NODE_ENV"        : "production",
-          "RPC_HOST"        : "miner03-rpchost",
+          "RPC_HOST"        : "miner3-rpchost",
           "RPC_PORT"        : "8545",
           "LISTENING_PORT"  : "30303",
-          "INSTANCE_NAME"   : "miner03",
+          "INSTANCE_NAME"   : "miner3",
+          "CONTACT_DETAILS" : "",
+          "WS_SERVER"       : "localhost:3001",
+          "WS_SECRET"       : "123",
+          "VERBOSITY"       : 3
+        }
+      },
+      {
+        "name"              : "miner4",
+        "cwd"               : ".",
+        "script"            : "app.js",
+        "log_date_format"   : "YYYY-MM-DD HH:mm Z",
+        "merge_logs"        : false,
+        "watch"             : false,
+        "exec_interpreter"  : "node",
+        "exec_mode"         : "fork_mode",
+        "env":
+        {
+          "NODE_ENV"        : "production",
+          "RPC_HOST"        : "miner4-rpchost",
+          "RPC_PORT"        : "8545",
+          "LISTENING_PORT"  : "30303",
+          "INSTANCE_NAME"   : "miner4",
           "CONTACT_DETAILS" : "",
           "WS_SERVER"       : "localhost:3001",
           "WS_SECRET"       : "123",
@@ -124,9 +146,10 @@ spec:
         - "-cx"
         - "cp -r /eth-net-intelligence-api/* /ethmonitor;
            cp /monitor-configmap/app.json /ethmonitor/app.json;
-           sed -i \"s/miner01-rpchost/$MINER01_SVC_SERVICE_HOST/g\" /ethmonitor/app.json;
-           sed -i \"s/miner02-rpchost/$MINER02_SVC_SERVICE_HOST/g\" /ethmonitor/app.json;
-           sed -i \"s/miner03-rpchost/$MINER03_SVC_SERVICE_HOST/g\" /ethmonitor/app.json;
+           sed -i \"s/miner1-rpchost/$MINER1_SVC_SERVICE_HOST/g\" /ethmonitor/app.json;
+           sed -i \"s/miner2-rpchost/$MINER2_SVC_SERVICE_HOST/g\" /ethmonitor/app.json;
+           sed -i \"s/miner3-rpchost/$MINER3_SVC_SERVICE_HOST/g\" /ethmonitor/app.json;
+           sed -i \"s/miner4-rpchost/$MINER4_SVC_SERVICE_HOST/g\" /ethmonitor/app.json;
            exit 0;"
         volumeMounts:
         - name: monitor-configmap-volume

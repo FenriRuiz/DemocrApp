@@ -36,9 +36,9 @@ MaxMessageSize = 1048576
 MinimumAcceptedPOW = 2e-01
 
 [Node]
-UserIdent = "miner02"
-DataDir = "/etc/testnet/miner02"
-IPCPath = "/etc/testnet/miner02/geth.ipc"
+UserIdent = "prueba1"
+DataDir = "/etc/testnet/prueba1"
+IPCPath = "/etc/testnet/prueba1/geth.ipc"
 HTTPHost = "0.0.0.0"
 HTTPPort = 8545
 HTTPCors = ["*"]
@@ -59,7 +59,3 @@ TrustedNodes = []
 ListenAddr = ":30303"
 EnableMsgEvents = false
 
-[Dashboard]
-Host = "0.0.0.0"
-Port = 8080
-Refresh = 3000000000

@@ -36,9 +36,9 @@ MaxMessageSize = 1048576
 MinimumAcceptedPOW = 2e-01
 
 [Node]
-UserIdent = "miner01"
-DataDir = "/etc/testnet/miner01"
-IPCPath = "/etc/testnet/miner01/geth.ipc"
+UserIdent = "miner4"
+DataDir = "/etc/testnet/miner4"
+IPCPath = "/etc/testnet/miner4/geth.ipc"
 HTTPHost = "0.0.0.0"
 HTTPPort = 8545
 HTTPCors = ["*"]

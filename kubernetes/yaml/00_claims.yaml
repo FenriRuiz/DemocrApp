@@ -2,7 +2,7 @@
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: volume-miner01
+  name: volume-miner1
   namespace: default
 spec:
   accessModes:
@@ -15,7 +15,7 @@ status: {}
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: volume-miner02
+  name: volume-miner2
   namespace: default
 spec:
   accessModes:
@@ -28,7 +28,20 @@ status: {}
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: volume-miner03
+  name: volume-miner3
+  namespace: default
+spec:
+  accessModes:
+  - ReadWriteOnce
+  resources:
+    requests:
+      storage: 20Gi
+status: {}
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: volume-miner4
   namespace: default
 spec:
   accessModes:
