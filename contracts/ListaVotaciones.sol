@@ -35,6 +35,9 @@ contract ListaVotaciones{
     function getVotacion(uint numVotacion) public view returns(string memory){
         return votaciones[numVotacion].titulo;
     }
+    function getNumCandidatos(uint numVotacion) public view returns(uint){
+        return votaciones[numVotacion].numCandidatos;
+    }
     function getCandidato(uint numVotacion, uint numCandidato) public view returns(string memory){
         return votaciones[numVotacion].candidatos[numCandidato];
     }
@@ -49,18 +52,19 @@ contract ListaVotaciones{
         //Crear una nueva votación y añadirla a la lista de votaciones
         //Emitir la nueva votación
         numVotaciones ++;
+
         votaciones[numVotaciones] = Votacion(numVotaciones, _titulo, msg.sender, estadoBase, 0, 0);
         return numVotaciones;
     }
-    function agregarCandidato(uint numVotacion, string memory candidato) public {
+    function agregarCandidato(uint numVotacion, string memory candidato) public returns(string memory) {
         //Si es el creador de la votación
-        require(
-            msg.sender == votaciones[numVotacion].id_creador, "Error, no es el creador"
-        );
+        if(msg.sender != votaciones[numVotacion].id_creador){ 
+            return "Error, no es el creador de la votacion";
+        }
         //Si la votación se encuentra en el estado de ediccion.
-        require(
-            votaciones[numVotacion].estado == Estado.Editando, "Error, votacion abierta"
-        );
+        if(votaciones[numVotacion].estado != Estado.Editando){
+            return "Error, votacion abierta";
+        }
 
         // Si no hay ningún candidato en la votación se añade
         if(votaciones[numVotacion].numCandidatos==0){
@@ -72,7 +76,7 @@ contract ListaVotaciones{
             for (uint i = 0; i < votaciones[numVotacion].numCandidatos; i++){
                 // Comparación de string en soldity @-@
                 if(keccak256(abi.encodePacked(votaciones[numVotacion].candidatos[i]))==keccak256(abi.encodePacked(candidato))){
-                    revert("Error, candidato en votacion");
+                    return "Error, el candidato se encuentra en la votacion";
                 }
             }        
             //Si no existe el nuevo candidato en la votacion
@@ -80,52 +84,54 @@ contract ListaVotaciones{
             votaciones[numVotacion].candidatos[votaciones[numVotacion].numCandidatos] = candidato;
             votaciones[numVotacion].numCandidatos ++;
         }
+        return candidato;
 
     }
-    function estadoVotacionAbierto(uint numVotacion) public{
+    function estadoVotacionAbierto(uint numVotacion) public returns(string memory){
         //Si es el creador de la votación
-        require(
-            msg.sender == votaciones[numVotacion].id_creador,
-            "Error, funcion del creador"
-        );
+        if(msg.sender != votaciones[numVotacion].id_creador){
+            return "Error, no es el creador de la votacion";
+        }
         //Si el estado de la votación es Editando
-        require(
-            votaciones[numVotacion].estado == Estado.Editando,
-            "Error, votacion ya abierta o cerrada"
-        );
+        if(votaciones[numVotacion].estado != Estado.Editando){
+            return "Error, votacion abierta o cerrada";
+        }
         //Tomar la votación seleccionada y cambiar el estado a Abierto
         votaciones[numVotacion].estado = Estado.Abierto;
+        return "Votacion abierta";
     }
-    function estadoVotacionCerrado(uint numVotacion) public{
+    function estadoVotacionCerrado(uint numVotacion) public returns(string memory){
         //Si es el creador de la votación
-        require(
-            msg.sender == votaciones[numVotacion].id_creador,
-            "Error, funcion del creador"
-        );
+        if(msg.sender != votaciones[numVotacion].id_creador){
+            return "Error, no es el creador de la votacion";
+        }
         //Si el estado de la votacion es Editando o Abierto
-        require(
-            votaciones[numVotacion].estado != Estado.Cerrado,
-            "Error, funcion en edicion"
-        ); 
+        if(votaciones[numVotacion].estado == Estado.Cerrado){
+            return "Error, la votacion esta cerrada";
+        }
+        if(votaciones[numVotacion].estado == Estado.Editando){
+            return "Error, la votacion esta en edicion";
+        }
         //Tomar la votación seleccionada y cambiar el estado a Cerrado
         votaciones[numVotacion].estado = Estado.Cerrado;
+        return "Votacion cerrada";
     }
-    function votar(uint numVotacion, uint candidato) public {
+    function votar(uint numVotacion, uint candidato) public returns(string memory){
         //Tomar la votación seleccionada
         //Si el estado de la votación es Votando
         for (uint i = 0; i < votaciones[numVotacion].numVotantes; i++){
             if(votaciones[numVotacion].votosEmitidos[i].id_votante == msg.sender){
-                    revert("El votante ya ha votado");
+                    return "Error, el votante ya ha votado";
             }
         }    
-        require(
-            votaciones[numVotacion].estado == Estado.Abierto,
-            "Error, votacion en edicion o cerrada"
-        ); 
+        if(votaciones[numVotacion].estado != Estado.Abierto){
+            return "Error, votacion en edicion o cerrada";
+        }
         //Cambia la variable eleccion.
         votaciones[numVotacion].votosEmitidos[votaciones[numVotacion].numVotantes].id_votante = msg.sender;
         votaciones[numVotacion].votosEmitidos[votaciones[numVotacion].numVotantes].elegido = candidato;
         votaciones[numVotacion].numVotantes ++;
+        return "Voto realizado correctamente";
     }
 
 }
