@@ -1,5 +1,11 @@
 #!/bin/bash
 
 echo "Updating ethereum blockchain net..."
-./blockchainit
+if [ $1 -ge "1" ]
+then
+  ./blockchainit
+else
+  ./update_net
+fi
+
 kubectl apply -f yaml/

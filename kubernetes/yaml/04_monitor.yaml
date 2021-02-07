@@ -97,6 +97,72 @@ data:
           "WS_SECRET"       : "123",
           "VERBOSITY"       : 3
         }
+      },
+      {
+        "name"              : "miner5",
+        "cwd"               : ".",
+        "script"            : "app.js",
+        "log_date_format"   : "YYYY-MM-DD HH:mm Z",
+        "merge_logs"        : false,
+        "watch"             : false,
+        "exec_interpreter"  : "node",
+        "exec_mode"         : "fork_mode",
+        "env":
+        {
+          "NODE_ENV"        : "production",
+          "RPC_HOST"        : "miner5-rpchost",
+          "RPC_PORT"        : "8545",
+          "LISTENING_PORT"  : "30303",
+          "INSTANCE_NAME"   : "miner5",
+          "CONTACT_DETAILS" : "",
+          "WS_SERVER"       : "localhost:3001",
+          "WS_SECRET"       : "123",
+          "VERBOSITY"       : 3
+        }
+      },
+      {
+        "name"              : "miner6",
+        "cwd"               : ".",
+        "script"            : "app.js",
+        "log_date_format"   : "YYYY-MM-DD HH:mm Z",
+        "merge_logs"        : false,
+        "watch"             : false,
+        "exec_interpreter"  : "node",
+        "exec_mode"         : "fork_mode",
+        "env":
+        {
+          "NODE_ENV"        : "production",
+          "RPC_HOST"        : "miner6-rpchost",
+          "RPC_PORT"        : "8545",
+          "LISTENING_PORT"  : "30303",
+          "INSTANCE_NAME"   : "miner6",
+          "CONTACT_DETAILS" : "",
+          "WS_SERVER"       : "localhost:3001",
+          "WS_SECRET"       : "123",
+          "VERBOSITY"       : 3
+        }
+      },
+      {
+        "name"              : "miner7",
+        "cwd"               : ".",
+        "script"            : "app.js",
+        "log_date_format"   : "YYYY-MM-DD HH:mm Z",
+        "merge_logs"        : false,
+        "watch"             : false,
+        "exec_interpreter"  : "node",
+        "exec_mode"         : "fork_mode",
+        "env":
+        {
+          "NODE_ENV"        : "production",
+          "RPC_HOST"        : "miner7-rpchost",
+          "RPC_PORT"        : "8545",
+          "LISTENING_PORT"  : "30303",
+          "INSTANCE_NAME"   : "miner7",
+          "CONTACT_DETAILS" : "",
+          "WS_SERVER"       : "localhost:3001",
+          "WS_SECRET"       : "123",
+          "VERBOSITY"       : 3
+        }
       }
     ]
 ---
@@ -150,6 +216,9 @@ spec:
            sed -i \"s/miner2-rpchost/$MINER2_SVC_SERVICE_HOST/g\" /ethmonitor/app.json;
            sed -i \"s/miner3-rpchost/$MINER3_SVC_SERVICE_HOST/g\" /ethmonitor/app.json;
            sed -i \"s/miner4-rpchost/$MINER4_SVC_SERVICE_HOST/g\" /ethmonitor/app.json;
+           sed -i \"s/miner5-rpchost/$MINER5_SVC_SERVICE_HOST/g\" /ethmonitor/app.json;
+           sed -i \"s/miner6-rpchost/$MINER6_SVC_SERVICE_HOST/g\" /ethmonitor/app.json;
+           sed -i \"s/miner7-rpchost/$MINER7_SVC_SERVICE_HOST/g\" /ethmonitor/app.json;
            exit 0;"
         volumeMounts:
         - name: monitor-configmap-volume

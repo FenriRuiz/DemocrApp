@@ -126,3 +126,45 @@ nodes:
       storage_size: 20
     k8s:
       replicas: 1
+- miner5:
+    geth:
+      Dashboard_Port: 8080
+      Dashboard_Refresh: 3000000000
+      Eth_Etherbase: '0xc61dc668ae0ae98d526e55448ae0d6e0728ad851'
+      Eth_Password: '123'
+      NodeP2P_DiscoveryAddr: 30303
+      Node_DataDir: /etc/testnet/miner5
+      Node_HTTPPort: 8545
+      Node_UserIdent: miner5
+      Node_WSPort: 8546
+      storage_size: 20
+    k8s:
+      replicas: 1
+- miner6:
+    geth:
+      Dashboard_Port: 8080
+      Dashboard_Refresh: 3000000000
+      Eth_Etherbase: '0x1114758b568e96eff0819b9207572395b5a5a714'
+      Eth_Password: '123'
+      NodeP2P_DiscoveryAddr: 30303
+      Node_DataDir: /etc/testnet/miner6
+      Node_HTTPPort: 8545
+      Node_UserIdent: miner6
+      Node_WSPort: 8546
+      storage_size: 20
+    k8s:
+      replicas: 1
+- miner7:
+    geth:
+      Dashboard_Port: 8080
+      Dashboard_Refresh: 3000000000
+      Eth_Etherbase: '0x9483e96a14e2ea3d25504b60bd3b54c74d392f39'
+      Eth_Password: '123'
+      NodeP2P_DiscoveryAddr: 30303
+      Node_DataDir: /etc/testnet/miner7
+      Node_HTTPPort: 8545
+      Node_UserIdent: miner7
+      Node_WSPort: 8546
+      storage_size: 20
+    k8s:
+      replicas: 1

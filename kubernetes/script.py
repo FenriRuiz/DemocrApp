@@ -100,14 +100,14 @@ def delete_ethereum_net():
 def add_node():
     miner_nodes = get_miner_nodes()
     add_miner_node_yaml(miner_nodes)
-    os.system(UPDATE_ETHEREUM_NET_COMM)
+    os.system(UPDATE_ETHEREUM_NET_COMM + " " + "1")
     print(f"Node miner{miner_nodes + 1} added!")
 
 def remove_node():
     miner_nodes = get_miner_nodes()
     if miner_nodes > 1:
         delete_miner_node_yaml(miner_nodes)
-        os.system(UPDATE_ETHEREUM_NET_COMM)
+        os.system(UPDATE_ETHEREUM_NET_COMM + " " + "0")
         delete_miner_nn(miner_nodes)
     else:
         print("Cannot remove more miner nodes!")
