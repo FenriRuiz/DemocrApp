@@ -26,6 +26,12 @@ contract ListaVotaciones{
         //nuevaVotacion("Votación a delegado de centro");
 
     }
+    function getNumVotaciones() public view returns(uint){
+        return numVotaciones;
+    }
+    function getVotacion(uint numVotacion) public view returns(string memory){
+        return votaciones[numVotacion].titulo;
+    }
 
     function getCandidato(uint numVotacion, uint numCandidato) public view returns(string memory){
         return votaciones[numVotacion].candidatos[numCandidato];

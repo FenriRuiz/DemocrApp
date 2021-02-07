@@ -4,9 +4,9 @@ from web3 import Web3
 
 
 
-account_1 = "0x7aF2B11a315a7De42BE3A09f175f1916a817762a"
-account_2 = "0x2cc666f3ad1514f133305f53AE9909b8043b0073"
-account_3 = "0x9955eC1541343826ab17397A4B4DC31922fdaC08"
+account_1 = "0xfdE8E18C35dae63B37BeC4682cA3D699207454E1"
+account_2 = "0xFF4F6B0AC5dd70cB7450c065761EB80a2914Fcd4"
+account_3 = "0x5783B9b85Bb69C04744FdA90F5BE898302DEFfF1"
 
 class DemocrappShell(cmd.Cmd):
     intro = 'Bienvenido a la terminal de DemocrApp.   Escribe help o ? para ver la lista de opciones.\n'
