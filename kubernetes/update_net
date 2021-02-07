@@ -88,19 +88,11 @@ File.open('yaml/02_bootnodes.yaml', 'w') do |f|
     f.puts ERB.new(File.read('erb/02_bootnodes.yaml.erb'), nil, '-').result
 end
 
-
 #####################################################################
 # nodes config
 #####################################################################
 File.open('yaml/03_nodes.yaml', 'w') do |f|
     f.puts ERB.new(File.read('erb/03_nodes.yaml.erb'), nil, '-').result
-end
-
-#####################################################################
-# monitor config
-#####################################################################
-File.open('yaml/04_monitor.yaml', 'w') do |f|
-    f.puts ERB.new(File.read('erb/04_monitor.yaml.erb'), nil, '-').result
 end
 
 #####################################################################
@@ -116,7 +108,6 @@ end
 File.open('yaml/06_backend.yaml', 'w') do |f|
     f.puts ERB.new(File.read('erb/06_backend.yaml.erb'), nil, '-').result
 end
-
 
 #####################################################################
 # load balancer config

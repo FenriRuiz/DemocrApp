@@ -73,10 +73,6 @@ def add_miner_node_yaml(miner_num):
     yaml.dump(parsed_yaml_file, a_yaml_file)
     a_yaml_file.close()
 
-def delete_miner_nn(miner_num):
-    os.system(DELETE_NODE_COMM + " " + str(miner_num))
-    print(f"Miner {miner_num} succesfully deleted!")
-
 def delete_miner_node_yaml(miner_num):
     a_yaml_file = open(ENVIRONMENT_YAML, "r")
     parsed_yaml_file = yaml.load(a_yaml_file, Loader=yaml.FullLoader)
@@ -108,7 +104,7 @@ def remove_node():
     if miner_nodes > 1:
         delete_miner_node_yaml(miner_nodes)
         os.system(UPDATE_ETHEREUM_NET_COMM + " " + "0")
-        delete_miner_nn(miner_nodes)
+        os.system(DELETE_NODE_COMM + " " + str(miner_nodes))
     else:
         print("Cannot remove more miner nodes!")
 
