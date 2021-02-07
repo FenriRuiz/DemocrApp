@@ -1,4 +1,4 @@
-pragma solidity >0.5.0;
+pragma solidity >=0.5.0;
 
 contract ListaVotaciones{
     enum Estado {Editando, Abierto, Cerrado} Estado estado;
@@ -26,13 +26,15 @@ contract ListaVotaciones{
         //nuevaVotacion("Votación a delegado de centro");
 
     }
+    function sayHello() public pure returns (string memory) {
+        return 'Hello World!';
+    }
     function getNumVotaciones() public view returns(uint){
         return numVotaciones;
     }
     function getVotacion(uint numVotacion) public view returns(string memory){
         return votaciones[numVotacion].titulo;
     }
-
     function getCandidato(uint numVotacion, uint numCandidato) public view returns(string memory){
         return votaciones[numVotacion].candidatos[numCandidato];
     }
@@ -40,13 +42,15 @@ contract ListaVotaciones{
         votaciones[numVotacion].candidatos[numCandidato] = nuevoNombre;
     }
     function getVotosEmitido(uint numVotacion, uint numVoto) public view returns(address, uint){
+        //Devuelve el id del votante y su voto elegido. Sirve para hacer el recuento de votos.
         return (votaciones[numVotacion].votosEmitidos[numVoto].id_votante, votaciones[numVotacion].votosEmitidos[numVoto].elegido);
     }
-    function nuevaVotacion(string memory _titulo) public{
+    function nuevaVotacion(string memory _titulo) public returns(uint){
         //Crear una nueva votación y añadirla a la lista de votaciones
         //Emitir la nueva votación
         numVotaciones ++;
         votaciones[numVotaciones] = Votacion(numVotaciones, _titulo, msg.sender, estadoBase, 0, 0);
+        return numVotaciones;
     }
     function agregarCandidato(uint numVotacion, string memory candidato) public {
         //Si es el creador de la votación
