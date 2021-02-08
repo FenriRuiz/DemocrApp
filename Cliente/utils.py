@@ -21,12 +21,12 @@ url_eth = "http://127.0.0.1:7545/"
 web3 = Web3(Web3.HTTPProvider(url_eth))
 
 ''' Clave publica del usuario, distinta para cada usuario'''
-web3.eth.defaultAccount = "0x82Eca131B20Ee051086Cf817f0b0361DE1901a27"
+web3.eth.defaultAccount = "0x4f6Ed2ec35396D6b1E10Fa4e20AD1D52E0dBff3c"
 
 ''' Dirección del smart contract desplegado igual para todos los clientes'''
-contract_address="0x2E892Eb3aE9B1837ca00A9F032517d899541C876"
+contract_address="0x95Badf8B7C34935a79CE270458C68e251583D54B"
 
-with open("build\contracts\ListaVotaciones.json", "r") as read_file:    
+with open("build/contracts/ListaVotaciones.json", "r") as read_file:    
     data = json.load(read_file)
 contract = web3.eth.contract(address=contract_address, abi=data['abi'])
 
@@ -50,33 +50,63 @@ contract = web3.eth.contract(address=contract_address, abi=data['abi'])
 # print(contract.functions.getCandidato(1, 0).call())
 
 # print(contract.functions.agregarCandidato(1, "a").call())
-
+#web3.eth.getTransactionReceipt(tx_hash)
 def addEncuesta(titulo):
-    return contract.functions.nuevaVotacion(titulo).transact()
-
+    try:
+        contract.functions.nuevaVotacion(titulo).transact()
+        print("Encuesta añadida: " + titulo)
+    except:
+        print("Error, al añadir la encuesta")
+    return 
 def openEncuesta(numVotacion):
-    return contract.functions.estadoVotacionAbierto(numVotacion).transact()
+    try:
+        contract.functions.estadoVotacionAbierto(numVotacion).transact()
+        print("Votación en estado: Abierta. Es votable")
+    except:
+        print("Error, votación continua en estado: Edicion")
+    return 
 
 def closeEncuesta(numVotacion):
-    return contract.functions.estadoVotacionCerrado(numVotacion).transact()
+    try:
+        contract.functions.estadoVotacionCerrado(numVotacion).transact()
+        print("Votación en estado: Cerrada.")
+    except:
+        print("Error, votación continua en estado: Abierta")
+    return 
 
 def addCandidatoEncuesta(numVotacion, candidato):
-    return contract.functions.agregarCandidato(numVotacion, candidato).transact()
+    try:
+        contract.functions.agregarCandidato(numVotacion, candidato).transact()
+        print("El candidado: " + candidato + ", ha sido añadido a la votación: " + str(numVotacion))
+    except:
+        print("Error, al añadir al candidado: " + candidato)
+    return 
 
 def getCandidatoEncuesta(numVotacion, numCandidato):
-    return contract.functions.getCandidato(numVotacion, numCandidato).call()
+    print("El candidato seleccionado es: "+ contract.functions.getCandidato(numVotacion, numCandidato).call())
+    return
 
 def getListaEncuestas():
     numVotaciones = contract.functions.getNumVotaciones().call()
     i = 1
     listaEncuestas = []
-    while i < numVotaciones:
+    while i <= numVotaciones:
         listaEncuestas.append(contract.functions.getVotacion(i).call())
         i += 1
-    return listaEncuestas
+
+    print("Las encuestas creadas son: ")
+    i = 1
+    listaEncuestas.reverse()
+    while i <= numVotaciones:
+        print(str(i) + ".- " + listaEncuestas.pop())
+        i += 1
+    return
 
 def getEncuesta(numVotacion):
-    return contract.functions.getVotacion(numVotacion).call()
+    print("Encuesta "+ str(numVotacion) + ") " +contract.functions.getVotacion(numVotacion).call())
+    print(getListaCandidatosEncuesta(numVotacion))
+    print("El estado de la votación es: " + contract.functions.getEstadoEncuesta(numVotacion).call())
+    return
 
 def getListaCandidatosEncuesta(numVotacion):
     numCandidatos = contract.functions.getNumCandidatos(numVotacion).call()
@@ -85,10 +115,37 @@ def getListaCandidatosEncuesta(numVotacion):
     while i < numCandidatos:
         listaCandidatos.append(contract.functions.getCandidato(numVotacion, i).call())
         i += 1
-    return listaCandidatos
+    i = 1
+    print("Los candidatos son: ")
+    listaCandidatos.reverse()
+    while i <= numCandidatos:
+        print(str(i)+".- " + str(listaCandidatos.pop()))
+        i += 1
+    return
 
 def setVotacion(numVotacion, numCandidato):
-    return contract.functions.votar(numVotacion).transact()
+    try:
+        contract.functions.votar(numVotacion, numCandidato).transact()
+        print("Votación realizada correctamente")
+    except:
+        print("Votación fallida")
+    return 
 
 def getResultadosEncuesta(numVotacion):
+
+    numVotantes = contract.functions.getNumVotantesVotacion(numVotacion).call()
+    votos = {}
+    i = 0
+    while i < numVotantes:
+        votoEmitido = contract.functions.getVotoEmitido(numVotacion, i).call()
+        if votos.get(votoEmitido) != 0:
+            votos[votoEmitido] = 1
+        else:
+            incremento = int(votos.get(votoEmitido)) + 1
+            votos[votoEmitido] = incremento
+        i =+ 1
+
+    for clave in votos:
+        porcentaje = (int(votos.get(clave))/numVotacion)*100
+        print("Votos para el candidato: " + str(clave) + "  -  " + str(porcentaje) +"%")
     return 

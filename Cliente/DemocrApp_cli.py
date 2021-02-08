@@ -13,32 +13,41 @@ class DemocrappShell(cmd.Cmd):
 
     def do_verEncuesta(self, arg):
         '''Muestra la información de una encuesta (título, candidatos y estado): \nverEncuesta NúmeroDeLaEncuesta'''
-        getEncuesta()
+        getEncuesta(int(arg))
     
     def do_verListaEncuestas(self, arg):
         '''Muestra una lista con las encuestas que existen: \nverListaEncuesta'''
-        print(getListaEncuestas())
+        getListaEncuestas()
     
     def do_verCandidatosDeEncuesta(self, arg):
         '''Muestra una lista con los candidatos de la encuesta elegida: \nverCandidatosDeEncuesta NúmeroDeLaEncuesta'''
-        print(getListaCandidatosEncuesta(int(arg)))
+        getListaCandidatosEncuesta(int(arg))
     
     def do_agregarCandidatoAEncuesta(self, arg):
         '''Agrega un candidato a la encuesta elegida: \nagregarCandidatoAEncuesta NúmeroDeLaEncuesta "Nombre del candidato"'''
         numVotacion, candidato = arg.split()
-        print(addCandidatoEncuesta(int(numVotacion), candidato))
+        addCandidatoEncuesta(int(numVotacion), candidato)
 
     def do_permitirVotacion(self, arg):
         '''Modifica la encuesta para que pueda ser votada: \nabrirEncuesta NúmeroDeLaEncuesta'''
-        print(openEncuesta(int(arg)))
+        openEncuesta(int(arg))
     
     def do_cerrarVotacion(self, arg):
         '''Cierra la encuesta, se dejan de poder emitir votaciones: \ncerrarEncuesta NúmeroDeLaEncuesta'''
-        closeEncuesta()
+        closeEncuesta(int(arg))
     
     def do_verResultadosEncuesta(self, arg):
         '''Muestra los resultados de una encuesta (Número de votos por candidatos, Porcentaje de votos): \nverResultadosEncuesta NúmeroDeLaEncuesta'''
-        getResultadosEncuesta()
+        getResultadosEncuesta(int(arg))
+    
+    def do_votar(self, arg):
+        '''Vota en una encuesta a un candidato: \nvotar NúmeroDeLaEncuesta NúmeroDelCandidato'''
+        numEncuesta, numCandidato = arg.split()
+        setVotacion(int(numEncuesta), int(numCandidato))
+    
+    def do_exit(self, arg):
+        return True
+
 
 if __name__ == '__main__':
     DemocrappShell().cmdloop()

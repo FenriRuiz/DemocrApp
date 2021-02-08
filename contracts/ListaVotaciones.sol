@@ -35,6 +35,19 @@ contract ListaVotaciones{
     function getVotacion(uint numVotacion) public view returns(string memory){
         return votaciones[numVotacion].titulo;
     }
+    function getNumVotantesVotacion(uint numVotacion) public view returns(uint){
+        return votaciones[numVotacion].numVotantes;
+    }
+    function getEstadoEncuesta(uint numVotacion) public view returns(string memory) {
+        if(votaciones[numVotacion].estado==Estado.Editando){
+            return "Editando";
+        }
+        if(votaciones[numVotacion].estado==Estado.Abierto){
+            return "Abierto";
+        }
+        if(votaciones[numVotacion].estado==Estado.Cerrado)
+            return "Cerrado";
+    }
     function getNumCandidatos(uint numVotacion) public view returns(uint){
         return votaciones[numVotacion].numCandidatos;
     }
@@ -44,9 +57,9 @@ contract ListaVotaciones{
     function setCandidato(uint numVotacion, uint numCandidato, string memory nuevoNombre) public{
         votaciones[numVotacion].candidatos[numCandidato] = nuevoNombre;
     }
-    function getVotosEmitido(uint numVotacion, uint numVoto) public view returns(address, uint){
+    function getVotoEmitido(uint numVotacion, uint numVoto) public view returns(uint){
         //Devuelve el id del votante y su voto elegido. Sirve para hacer el recuento de votos.
-        return (votaciones[numVotacion].votosEmitidos[numVoto].id_votante, votaciones[numVotacion].votosEmitidos[numVoto].elegido);
+        return votaciones[numVotacion].votosEmitidos[numVoto].elegido;
     }
     function nuevaVotacion(string memory _titulo) public returns(uint){
         //Crear una nueva votación y añadirla a la lista de votaciones
