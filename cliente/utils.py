@@ -21,35 +21,15 @@ url_eth = "http://127.0.0.1:7545/"
 web3 = Web3(Web3.HTTPProvider(url_eth))
 
 ''' Clave publica del usuario, distinta para cada usuario'''
-web3.eth.defaultAccount = "0x4f6Ed2ec35396D6b1E10Fa4e20AD1D52E0dBff3c"
+web3.eth.defaultAccount = "0xC1fdfEb32072297b3fEB093D648A09cD2bF0e611"
 
 ''' Dirección del smart contract desplegado igual para todos los clientes'''
-contract_address="0x95Badf8B7C34935a79CE270458C68e251583D54B"
+contract_address="0x35AA0f83DE1a260F67ECeecCfdDb2766570b4Aa1"
 
 with open("build/contracts/ListaVotaciones.json", "r") as read_file:    
     data = json.load(read_file)
 contract = web3.eth.contract(address=contract_address, abi=data['abi'])
 
-#contract = json.loads(ListaVotaciones.json)
-# print(data)
-# print(data['abi'])
-
-# print(contract.functions.nuevaVotacion("Primera Encuesta").transact())
-# print(contract.functions.getVotacion(1).call())
-# print(contract.functions.sayHello().call())
-
-# print(contract.functions.nuevaVotacion("Segunda Encuesta").transact())
-# print(contract.functions.getVotacion(2).call())
-# print(contract.functions.sayHello().call())
-
-# print(contract.functions.getVotacion(2).call())
-
-# print(contract.functions.agregarCandidato(1, "a").call())
-# print(contract.functions.agregarCandidato(1, "b").call())
-# print(contract.functions.agregarCandidato(1, "c").call())
-# print(contract.functions.getCandidato(1, 0).call())
-
-# print(contract.functions.agregarCandidato(1, "a").call())
 #web3.eth.getTransactionReceipt(tx_hash)
 def addEncuesta(titulo):
     try:
